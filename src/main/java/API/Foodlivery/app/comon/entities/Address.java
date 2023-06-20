@@ -1,5 +1,6 @@
 package API.Foodlivery.app.comon.entities;
 
+import API.Foodlivery.app.restaurants.entities.Restaurant;
 import API.Foodlivery.app.users.entities.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -20,7 +21,10 @@ public class Address {
     private int postcode;
     private String city;
     private String state;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "address")
     @JsonIgnore
     private User user;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "address")
+    @JsonIgnore
+    private Restaurant restaurant;
 }

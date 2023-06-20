@@ -2,6 +2,8 @@ package API.Foodlivery.app.comon.tools;
 
 import API.Foodlivery.app.comon.dto.AddressDTO;
 import API.Foodlivery.app.comon.entities.Address;
+import API.Foodlivery.app.restaurants.DtoRto.RestaurantDTO;
+import API.Foodlivery.app.restaurants.entities.Restaurant;
 import API.Foodlivery.app.users.entities.User;
 import API.Foodlivery.app.users.entities.dto.UserDTO;
 import API.Foodlivery.app.users.entities.rto.UserRTO;
@@ -55,6 +57,16 @@ public class Converters {
         rto.setEmail(user.getEmail());
         rto.setDateOfBirth(user.getDateOfBirth());
         rto.setTelephoneNumber(user.getTelephoneNumber());
+        rto.setAddress(dto);
+        return rto;
+    }
+
+    //Converter Restaurant
+    public RestaurantDTO restaurantFromEntityToDto(Restaurant restaurant){
+        RestaurantDTO rto = new RestaurantDTO();
+        AddressDTO dto = converters.addressFromEntityToDto(restaurant.getAddress());
+        rto.setName(restaurant.getName());
+        rto.setType(restaurant.getType());
         rto.setAddress(dto);
         return rto;
     }
