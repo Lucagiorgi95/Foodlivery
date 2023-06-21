@@ -1,5 +1,6 @@
 package API.Foodlivery.app.comon.tools;
 
+import API.Foodlivery.app.comon.dto.ReviewDTO;
 import API.Foodlivery.app.restaurants.DtoRto.FoodDTO;
 import API.Foodlivery.app.restaurants.DtoRto.RestaurantDTO;
 import API.Foodlivery.app.users.entities.dto.UserDTO;
@@ -33,6 +34,15 @@ public class CheckEmptyField {
         HashSet<String> errors = new HashSet<>();
         if (dto.getName() == null) errors.add("Name is not insert");
         if (dto.getPrize() == 0) errors.add("Prize is not insert");
+        if (dto.getDescription() == null) errors.add("Description is not insert");
+        return errors;
+    }
+
+    public HashSet<String> checkRegisterReview (ReviewDTO dto){
+        HashSet<String> errors = new HashSet<>();
+        if (dto.getUserId() == 0) errors.add("UserID is not insert");
+        if (dto.getRestaurantId() == 0) errors.add("RestaurantID is not insert");
+        if (dto.getStar() == 0) errors.add("Star rating is not insert");
         if (dto.getDescription() == null) errors.add("Description is not insert");
         return errors;
     }
