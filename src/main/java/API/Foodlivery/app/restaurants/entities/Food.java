@@ -3,9 +3,11 @@ package API.Foodlivery.app.restaurants.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table
 public class Food {
@@ -15,5 +17,7 @@ public class Food {
     private String name;
     private double prize;
     private String description;
+    @ManyToOne
+    private Restaurant restaurant;
 
 }

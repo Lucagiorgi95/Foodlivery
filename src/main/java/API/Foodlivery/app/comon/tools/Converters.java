@@ -2,7 +2,9 @@ package API.Foodlivery.app.comon.tools;
 
 import API.Foodlivery.app.comon.dto.AddressDTO;
 import API.Foodlivery.app.comon.entities.Address;
+import API.Foodlivery.app.restaurants.DtoRto.FoodDTO;
 import API.Foodlivery.app.restaurants.DtoRto.RestaurantDTO;
+import API.Foodlivery.app.restaurants.entities.Food;
 import API.Foodlivery.app.restaurants.entities.Restaurant;
 import API.Foodlivery.app.users.entities.User;
 import API.Foodlivery.app.users.entities.dto.UserDTO;
@@ -70,4 +72,7 @@ public class Converters {
         rto.setAddress(dto);
         return rto;
     }
+
+    //Converter Food
+
 }

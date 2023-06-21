@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,4 +24,12 @@ public class Restaurant {
     private int starReview;
     @OneToOne
     private Address address;
+    @OneToMany
+    private List<Food> foods;
+
+    public void addFoods(List<Food> foods) {
+        for(Food x : foods){
+            this.foods.add(x);
+        }
+    }
 }
