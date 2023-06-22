@@ -1,7 +1,6 @@
 package API.Foodlivery.app.comon.tools;
 
 import API.Foodlivery.app.comon.dto.AddressDTO;
-import API.Foodlivery.app.comon.dto.ReviewDTO;
 import API.Foodlivery.app.comon.dto.ReviewRTO;
 import API.Foodlivery.app.comon.entities.Address;
 import API.Foodlivery.app.comon.entities.Review;

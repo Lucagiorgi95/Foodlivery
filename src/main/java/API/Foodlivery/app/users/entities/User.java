@@ -32,9 +32,7 @@ public class User {
     @OneToMany
     private List<Review> listOfReview;
 
-    public void addListOfReview(List<Review> listOfReview) {
-        for(Review x : listOfReview){
-            this.listOfReview.add(x);
-        }
+    public void addListOfReview(Review listOfReview) {
+        this.listOfReview.add(listOfReview);
     }
 }

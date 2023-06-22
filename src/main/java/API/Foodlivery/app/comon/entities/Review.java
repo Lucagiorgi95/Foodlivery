@@ -18,7 +18,7 @@ public class Review {
     private long id;
     @ManyToOne
     private User user;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Restaurant restaurant;
     private int star;
     private String description;

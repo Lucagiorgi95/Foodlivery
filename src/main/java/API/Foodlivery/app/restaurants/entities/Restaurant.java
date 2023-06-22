@@ -31,9 +31,7 @@ public class Restaurant {
     private List<Review> review;
 
     public void addFoods(List<Food> foods) {
-        for(Food x : foods){
-            this.foods.add(x);
-        }
+        this.foods.addAll(foods);
     }
 
     public void addReview(Review reviews){

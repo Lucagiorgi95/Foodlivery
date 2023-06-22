@@ -12,7 +12,6 @@ import API.Foodlivery.app.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class ReviewService {
@@ -22,7 +21,6 @@ public class ReviewService {
     UserRepository userRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
-
     @Autowired
     Converters converters;
 
@@ -37,16 +35,14 @@ public class ReviewService {
         entity.setStar(dto.getStar());
         entity.setDescription(dto.getDescription());
 
-        List<Review> listOfReview = user.getListOfReview();
-        listOfReview.add(entity);
-        user.addListOfReview(listOfReview);
+        user.addListOfReview(entity);
         restaurant.addReview(entity);
+
         userRepository.save(user);
         restaurantRepository.save(restaurant);
         reviewRepository.save(entity);
 
-        ReviewRTO rto = converters.reviewFromEntityYoDto(entity);
-        return rto;
+        return converters.reviewFromEntityYoDto(entity);
     }
 
 
