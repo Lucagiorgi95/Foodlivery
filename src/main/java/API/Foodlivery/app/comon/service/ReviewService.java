@@ -12,7 +12,6 @@ import API.Foodlivery.app.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +40,9 @@ public class ReviewService {
         List<Review> listOfReview = user.getListOfReview();
         listOfReview.add(entity);
         user.addListOfReview(listOfReview);
+        restaurant.addReview(entity);
         userRepository.save(user);
+        restaurantRepository.save(restaurant);
         reviewRepository.save(entity);
 
         ReviewRTO rto = converters.reviewFromEntityYoDto(entity);

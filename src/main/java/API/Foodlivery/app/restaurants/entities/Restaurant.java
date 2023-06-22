@@ -27,12 +27,16 @@ public class Restaurant {
     private Address address;
     @OneToMany
     private List<Food> foods;
-    @OneToOne
-    private Review review;
+    @OneToMany(mappedBy = "restaurant")
+    private List<Review> review;
 
     public void addFoods(List<Food> foods) {
         for(Food x : foods){
             this.foods.add(x);
         }
+    }
+
+    public void addReview(Review reviews){
+        this.review.add(reviews);
     }
 }
