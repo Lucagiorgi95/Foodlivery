@@ -16,7 +16,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
     @ManyToOne(cascade = CascadeType.ALL)
     private Restaurant restaurant;

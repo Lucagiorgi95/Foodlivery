@@ -26,23 +26,29 @@ public class ReviewService {
 
     public ReviewRTO saveNewReview(ReviewDTO dto){
         Review entity = new Review();
-        User user = userRepository.getById(dto.getUserId());
-        entity.setUser(user);
-
-        Restaurant restaurant = restaurantRepository.getById(dto.getRestaurantId());
-        entity.setRestaurant(restaurant);
-
         entity.setStar(dto.getStar());
         entity.setDescription(dto.getDescription());
-
-        user.addListOfReview(entity);
-        restaurant.addReview(entity);
-
-        userRepository.save(user);
-        restaurantRepository.save(restaurant);
+        addReviewToUser(entity,dto);
+        addReviewToRestaurant(entity,dto);
         reviewRepository.save(entity);
 
         return converters.reviewFromEntityYoDto(entity);
+    }
+
+    public void addReviewToUser(Review review, ReviewDTO dto){
+        User user = userRepository.getById(dto.getUserId());
+        review.setUser(user);
+        reviewRepository.save(review);
+        user.addListOfReview(review);
+        userRepository.save(user);
+    }
+
+    public void addReviewToRestaurant(Review review, ReviewDTO dto){
+        Restaurant restaurant = restaurantRepository.getById(dto.getRestaurantId());
+        review.setRestaurant(restaurant);
+        reviewRepository.save(review);
+        restaurant.addReview(review);
+        restaurantRepository.save(restaurant);
     }
 
 
