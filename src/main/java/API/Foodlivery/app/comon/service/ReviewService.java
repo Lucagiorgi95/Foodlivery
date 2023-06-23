@@ -33,7 +33,7 @@ public class ReviewService {
         addReviewToUser(entity,dto);
         addReviewToRestaurant(entity,dto);
         reviewRepository.save(entity);
-        updateStar(entity.getRestaurant());
+        updateStarRestaurant(entity.getRestaurant());
         return converters.reviewFromEntityYoDto(entity);
     }
 
@@ -53,7 +53,7 @@ public class ReviewService {
         restaurantRepository.save(restaurant);
     }
 
-    public void updateStar(Restaurant restaurant){
+    public void updateStarRestaurant(Restaurant restaurant){
         List<Review> reviews = reviewRepository.findAllByRestaurantId(restaurant.getId());
         int totalStar = 0;
         for(Review x : reviews){
