@@ -12,6 +12,8 @@ import API.Foodlivery.app.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ReviewService {
@@ -31,7 +33,7 @@ public class ReviewService {
         addReviewToUser(entity,dto);
         addReviewToRestaurant(entity,dto);
         reviewRepository.save(entity);
-
+        updateStar(entity.getRestaurant());
         return converters.reviewFromEntityYoDto(entity);
     }
 
@@ -51,6 +53,14 @@ public class ReviewService {
         restaurantRepository.save(restaurant);
     }
 
-
-
+    public void updateStar(Restaurant restaurant){
+        List<Review> reviews = reviewRepository.findAllByRestaurantId(restaurant.getId());
+        int totalStar = 0;
+        for(Review x : reviews){
+            totalStar = x.getStar() + totalStar;
+        }
+        int averageStar = totalStar/reviews.size();
+        restaurant.setStarReview(averageStar);
+        restaurantRepository.save(restaurant);
+    }
 }

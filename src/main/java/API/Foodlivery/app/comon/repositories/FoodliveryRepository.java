@@ -1,5 +1,6 @@
 package API.Foodlivery.app.comon.repositories;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -14,5 +15,4 @@ public interface FoodliveryRepository<T> extends JpaRepository<T, Long> {
 
     @Override
     <S extends T> List<S> saveAll(Iterable<S> entities);
-
 }
