@@ -1,6 +1,7 @@
 package API.Foodlivery.app.restaurants.entities;
 
 import API.Foodlivery.app.comon.entities.Address;
+import API.Foodlivery.app.comon.entities.Review;
 import API.Foodlivery.app.restaurants.entities.type.RestaurantType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,10 +27,14 @@ public class Restaurant {
     private Address address;
     @OneToMany
     private List<Food> foods;
+    @OneToMany(mappedBy = "restaurant")
+    private List<Review> review;
 
     public void addFoods(List<Food> foods) {
-        for(Food x : foods){
-            this.foods.add(x);
-        }
+        this.foods.addAll(foods);
+    }
+
+    public void addReview(Review reviews){
+        this.review.add(reviews);
     }
 }
