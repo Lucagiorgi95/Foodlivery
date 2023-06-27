@@ -30,7 +30,7 @@ public class RestaurantController {
             RestaurantDTO restaurant = restaurantService.createNewRestaurant(dto);
             return ResponseEntity.ok().body("The restaurant is been created");
         }catch (Exception ex) {
-            System.out.println(ex);
+            ex.getStackTrace();
             return ResponseEntity.internalServerError().body(ex);
         }
     }

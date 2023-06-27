@@ -35,6 +35,14 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- JAVA EMAIL -->
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
 		<!--- DATABASE -->
 		<dependency>
 		<groupId>org.springframework.boot</groupId>

@@ -31,7 +31,7 @@ public class FoodController {
             foodService.saveFood(dto);
             return ResponseEntity.ok().body("All your products have been added");
         }catch (Exception ex){
-            System.out.println(ex);
+            ex.getStackTrace();
             return ResponseEntity.internalServerError().body(ex);
         }
 

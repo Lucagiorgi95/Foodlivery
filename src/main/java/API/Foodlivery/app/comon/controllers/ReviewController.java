@@ -21,16 +21,16 @@ public class ReviewController {
     CheckEmptyField checkEmptyField;
 
     @PostMapping("/insert-new-review")
-    public ResponseEntity createNewReview(@RequestBody ReviewDTO dto){
-        HashSet<String> errors = checkEmptyField.checkRegisterReview(dto);
+    public ResponseEntity createNewReview(@RequestBody ReviewDTO reviewDTO){
+        HashSet<String> errors = checkEmptyField.checkRegisterReview(reviewDTO);
         if (!errors.isEmpty()) return ResponseEntity.badRequest().body(errors);
 
         try{
-            ReviewRTO review = reviewService.saveNewReview(dto);
+            ReviewRTO review = reviewService.saveNewReview(reviewDTO);
             return ResponseEntity.ok(review);
         }catch (Exception ex){
-            System.out.println(ex);
-            return ResponseEntity.internalServerError().body(errors);
+            ex.getStackTrace();
+            return ResponseEntity.internalServerError().body(ex);
         }
     }
 }

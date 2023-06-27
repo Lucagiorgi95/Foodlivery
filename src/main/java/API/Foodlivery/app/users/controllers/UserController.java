@@ -27,7 +27,7 @@ public class UserController {
             UserRTO newUser = userService.createUser(dto);
             return ResponseEntity.ok().body("The user with ID: " + newUser.getId() + " has been registered");
         }catch (Exception ex){
-            System.out.println(ex);
+            ex.getStackTrace();
             return ResponseEntity.internalServerError().body(ex);
         }
     }
@@ -39,7 +39,7 @@ public class UserController {
             if(user == null) return ResponseEntity.badRequest().body("The user whit ID: " + id + "is not exist");
             return ResponseEntity.ok(user);
         }catch (Exception ex){
-            System.out.println(ex);
+            ex.getStackTrace();
             return ResponseEntity.internalServerError().body("Unable to find user");
         }
     }
