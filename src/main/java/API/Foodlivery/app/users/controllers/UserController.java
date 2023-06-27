@@ -1,5 +1,6 @@
 package API.Foodlivery.app.users.controllers;
 
+import API.Foodlivery.app.comon.service.EmailNotificationService;
 import API.Foodlivery.app.comon.tools.CheckEmptyField;
 import API.Foodlivery.app.users.entities.dto.UserDTO;
 import API.Foodlivery.app.users.entities.rto.UserRTO;
@@ -17,6 +18,8 @@ public class UserController {
     UserService userService;
     @Autowired
     CheckEmptyField checkEmptyField;
+    @Autowired
+    EmailNotificationService emailNotificationService;
 
     @PostMapping("/register-user")
     public ResponseEntity createUser(@RequestBody UserDTO dto){
@@ -25,6 +28,7 @@ public class UserController {
 
         try{
             UserRTO newUser = userService.createUser(dto);
+            emailNotificationService.sendEmailOfCreationNewUser(dto);
             return ResponseEntity.ok().body("The user with ID: " + newUser.getId() + " has been registered");
         }catch (Exception ex){
             ex.getStackTrace();
