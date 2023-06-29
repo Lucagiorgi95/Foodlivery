@@ -9,6 +9,8 @@ import API.Foodlivery.app.users.entities.dto.UserDTO;
 import API.Foodlivery.app.users.entities.rto.UserRTO;
 import API.Foodlivery.app.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,12 +24,15 @@ public class UserService {
     AddressService addressService;
     @Autowired
     Converters converters;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public UserRTO createUser(UserDTO dto){
         User user = converters.userFromDtoToEntity(dto);
         Address address = addressService.createAddress(dto.getAddress());
         address.setUser(user);
         addressRepository.save(address);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAddress(address);
         userRepository.save(user);
         return converters.userFromEntityToDto(user);

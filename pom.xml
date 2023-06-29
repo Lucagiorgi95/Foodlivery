@@ -43,6 +43,13 @@
 			<version>1.5.5</version>
 		</dependency>
 
+		<!-- SICUREZZA -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 		<!--- DATABASE -->
 		<dependency>
 		<groupId>org.springframework.boot</groupId>

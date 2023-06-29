@@ -42,7 +42,6 @@ public class Converters {
         entity.setSurname(userDTO.getSurname());
         entity.setDateOfBirth(userDTO.getDateOfBirth());
         entity.setEmail(userDTO.getEmail());
-        entity.setPassword(userDTO.getPassword());
         entity.setTelephoneNumber(userDTO.getTelephoneNumber());
         return entity;
     }

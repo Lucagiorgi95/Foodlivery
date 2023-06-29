@@ -57,12 +57,11 @@ public class EmailNotificationService {
 
         //System.out.println("SimpleEmail Start");
 
-        String smtpHostServer = mailHost;
+        String smtpHostServer = "smtp.gmail.com";
         String emailID = fromEmail;
 
 
         Properties props = System.getProperties();
-        props.put("mail.smtp.starttls.enable", "true");
 
         props.put("mail.smtp.port", mailPort);
         props.put("mail.smtp.host", smtpHostServer);
