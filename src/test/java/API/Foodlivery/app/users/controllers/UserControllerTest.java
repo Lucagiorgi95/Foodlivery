@@ -1,14 +1,11 @@
 package API.Foodlivery.app.users.controllers;
 
-import API.Foodlivery.app.users.entities.User;
-import API.Foodlivery.app.users.entities.dto.UserDTO;
+import API.Foodlivery.app.controllers.UserController;
+import API.Foodlivery.app.entities.dto.UserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
 
