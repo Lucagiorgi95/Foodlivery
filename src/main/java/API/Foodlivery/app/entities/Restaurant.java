@@ -27,6 +27,8 @@ public class Restaurant {
     private List<Food> foods;
     @OneToMany(mappedBy = "restaurant")
     private List<Review> review;
+    @OneToMany
+    private List<Drink> drinks;
 
     public void addFoods(List<Food> foods) {
         this.foods.addAll(foods);
@@ -35,4 +37,6 @@ public class Restaurant {
     public void addReview(Review reviews){
         this.review.add(reviews);
     }
+
+    public void addDrinks(List<Drink> drinks){this.drinks.addAll(drinks);}
 }
