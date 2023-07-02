@@ -1,6 +1,5 @@
 package API.Foodlivery.app.controllers;
 
-import API.Foodlivery.app.email.EmailNotificationService;
 import API.Foodlivery.app.tools.CheckEmptyField;
 import API.Foodlivery.app.entities.dto.UserDTO;
 import API.Foodlivery.app.entities.rto.UserRTO;
@@ -20,8 +19,6 @@ public class UserController {
     UserService userService;
     @Autowired
     CheckEmptyField checkEmptyField;
-    @Autowired
-    EmailNotificationService emailNotificationService;
 
     Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
@@ -42,15 +39,6 @@ public class UserController {
         try{
             UserRTO newUser = userService.createUser(userDTO);
             LOGGER.info("The user with ID: " + newUser.getId() + " was successfully saved");
-
-            boolean email = emailNotificationService.sendEmailOfCreationNewUser(userDTO);
-            if(email){
-                LOGGER.info("The registration email has been sent");
-            }else{
-                LOGGER.warn("The email could not be sent and the newly created user will be deleted");
-                userService.deleteUser(newUser.getId());
-                return ResponseEntity.internalServerError().body("The email could not be sent");
-            }
 
             return ResponseEntity.ok().body("The user with ID: " + newUser.getId() + " has been registered");
         }catch (Exception ex){

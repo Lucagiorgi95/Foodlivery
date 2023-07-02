@@ -2,7 +2,6 @@ package API.Foodlivery.app.service;
 
 import API.Foodlivery.app.entities.Address;
 import API.Foodlivery.app.repositories.AddressRepository;
-import API.Foodlivery.app.service.AddressService;
 import API.Foodlivery.app.tools.Converters;
 import API.Foodlivery.app.entities.User;
 import API.Foodlivery.app.entities.dto.UserDTO;
