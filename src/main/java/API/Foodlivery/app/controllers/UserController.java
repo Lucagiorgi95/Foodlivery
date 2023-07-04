@@ -43,11 +43,18 @@ public class UserController {
             return ResponseEntity.ok().body("The user with ID: " + newUser.getId() + " has been registered");
         }catch (Exception ex){
             LOGGER.error(ex.getMessage());
-            return ResponseEntity.internalServerError().body(ex);
+            return ResponseEntity.internalServerError().body("Impossible create the user");
         }
     }
 
-    @GetMapping("/view-user")
+    /**
+     * Controller per visualizzare un utente tramite il suo id
+     *
+     * @param id                      Id utente
+     * @return                        Ritorna una response entity con status OK/BAD REQUEST/INTERNA ERRROR SERVER
+     *                                a seconda dell'esito se OK ritorna anche l'user desiderato
+     */
+    @GetMapping("/view-user/{id}")
     public ResponseEntity viewUser(@RequestParam long id){
         try{
             UserRTO user = userService.getUser(id);
@@ -60,6 +67,28 @@ public class UserController {
         }
     }
 
-
+    /**
+     * Controller per eliminare un'utente tramite il suo id
+     *
+     * @param id                      Id dell'utente
+     * @return                        Ritorna una response entity con status OK/BAD REQUEST/INTERNA ERRROR SERVER
+     *                                a seconda dell'esito
+     */
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteUser(@RequestParam long id){
+        try{
+            boolean result = userService.deleteUser(id);
+            if (result){
+                LOGGER.info("The user whit ID: " + id + " is deleted");
+                return ResponseEntity.ok("The user whit ID: " + id + " is deleted");
+            }else{
+                LOGGER.warn("The user whit ID: " + id + " not found");
+                return ResponseEntity.badRequest().body("The user whit ID: " + id + " not found");
+            }
+        }catch (Exception ex){
+            LOGGER.error(ex.getMessage());
+            return ResponseEntity.internalServerError().body("Impossible delete the user");
+        }
+    }
 
 }

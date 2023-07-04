@@ -1,6 +1,7 @@
 package API.Foodlivery.app.tools;
 
 import API.Foodlivery.app.entities.dto.AddressDTO;
+import API.Foodlivery.app.entities.rto.RestaurantRTO;
 import API.Foodlivery.app.entities.rto.ReviewRTO;
 import API.Foodlivery.app.entities.Address;
 import API.Foodlivery.app.entities.Review;
@@ -10,6 +11,9 @@ import API.Foodlivery.app.entities.User;
 import API.Foodlivery.app.entities.dto.UserDTO;
 import API.Foodlivery.app.entities.rto.UserRTO;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class Converters {
@@ -67,6 +71,22 @@ public class Converters {
         rto.setType(restaurant.getType());
         rto.setAddress(dto);
         return rto;
+    }
+
+    public RestaurantRTO restaurantFromEntityToRTO(Restaurant restaurant){
+        RestaurantRTO rto = new RestaurantRTO();
+        rto.setName(restaurant.getName());
+        rto.setStar(restaurant.getStarReview());
+        rto.setType(restaurant.getType());
+        return rto;
+    }
+
+    public List<RestaurantRTO> listRestaurantRTO (List<Restaurant> restaurants){
+        List<RestaurantRTO> list = new ArrayList<>();
+        for(Restaurant x : restaurants){
+            list.add(restaurantFromEntityToRTO(x));
+        }
+        return list;
     }
 
     //Converter Review

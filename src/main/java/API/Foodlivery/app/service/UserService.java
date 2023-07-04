@@ -39,8 +39,14 @@ public class UserService {
         else return null;
     }
 
-    public void deleteUser(long id){
-        userRepository.deleteById(id);
+    public boolean deleteUser(long id){
+        User user = userRepository.getById(id);
+        if (user != null) {
+            userRepository.deleteById(id);
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
