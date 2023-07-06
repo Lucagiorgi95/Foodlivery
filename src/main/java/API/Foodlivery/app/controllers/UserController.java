@@ -1,9 +1,9 @@
 package API.Foodlivery.app.controllers;
 
-import API.Foodlivery.app.tools.CheckEmptyField;
 import API.Foodlivery.app.entities.dto.UserDTO;
 import API.Foodlivery.app.entities.rto.UserRTO;
 import API.Foodlivery.app.service.UserService;
+import API.Foodlivery.app.tools.Validation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     UserService userService;
     @Autowired
-    CheckEmptyField checkEmptyField;
+    Validation validation;
 
     Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
@@ -31,12 +31,12 @@ public class UserController {
      */
     @PostMapping("/register-user")
     public ResponseEntity createUser(@RequestBody UserDTO userDTO){
-        LOGGER.info("Checking empty fields...");
-        HashSet<String> errors = checkEmptyField.checkRegisterUser(userDTO);
-        if (!errors.isEmpty()) return ResponseEntity.badRequest().body(errors);
-        LOGGER.info("Check complete");
-
         try{
+            LOGGER.info("Checking empty fields...");
+            HashSet<String> errors = validation.checkRegisterUser(userDTO);
+            if (!errors.isEmpty()) return ResponseEntity.badRequest().body(errors);
+            LOGGER.info("Check complete");
+
             UserRTO newUser = userService.createUser(userDTO);
             LOGGER.info("The user with ID: " + newUser.getId() + " was successfully saved");
 
@@ -54,13 +54,20 @@ public class UserController {
      * @return                        Ritorna una response entity con status OK/BAD REQUEST/INTERNA ERRROR SERVER
      *                                a seconda dell'esito se OK ritorna anche l'user desiderato
      */
-    @GetMapping("/view-user/{id}")
+    @GetMapping("/view-user")
     public ResponseEntity viewUser(@RequestParam long id){
         try{
+            LOGGER.info(String.format("Find user whit id: %s",id));
             UserRTO user = userService.getUser(id);
-            if(user == null) return ResponseEntity.badRequest().body("The user whit ID: " + id + "is not exist");
-            LOGGER.info("The user whit ID: " + id + "has been found");
-            return ResponseEntity.ok(user);
+            HashSet<String> checkRto = validation.checkRtoUser(user);
+            if(checkRto.isEmpty()){
+                LOGGER.info(String.format("The user whit ID: %s has been found", id));
+                return ResponseEntity.ok(user);
+            }else{
+                String error = String.format("The user whit ID: %s not exist",id);
+                LOGGER.error(error);
+                return ResponseEntity.badRequest().body(error);
+            }
         }catch (Exception ex){
             LOGGER.error(ex.getMessage());
             return ResponseEntity.internalServerError().body("Unable to find user");
@@ -77,13 +84,17 @@ public class UserController {
     @DeleteMapping("/delete")
     public ResponseEntity deleteUser(@RequestParam long id){
         try{
-            boolean result = userService.deleteUser(id);
-            if (result){
-                LOGGER.info("The user whit ID: " + id + " is deleted");
-                return ResponseEntity.ok("The user whit ID: " + id + " is deleted");
-            }else{
-                LOGGER.warn("The user whit ID: " + id + " not found");
-                return ResponseEntity.badRequest().body("The user whit ID: " + id + " not found");
+            UserRTO user = userService.getUser(id);
+            HashSet<String> checkRto = validation.checkRtoUser(user);
+            if(checkRto.isEmpty()) {
+                userService.deleteUser(id);
+                String response = String.format("The user whit ID: %s is deleted", id);
+                LOGGER.info(response);
+                return ResponseEntity.ok().body(response);
+            }else {
+                String error = String.format("The user whit ID: %s not found",id);
+                LOGGER.error(error);
+                return ResponseEntity.badRequest().body(error);
             }
         }catch (Exception ex){
             LOGGER.error(ex.getMessage());
@@ -91,4 +102,29 @@ public class UserController {
         }
     }
 
+    /**
+     * Metodo per modificare le proprietà dell'user
+     *
+     * @param userDTO                     dto con le nuove proprietà
+     * @param id                          id dell'user
+     * @return                            ritorna una response entity con status OK/INTERNAL ERROR SERVER a seconda dell'esito
+     */
+    @PutMapping("/profile-modification")
+    public ResponseEntity updateProfile(@RequestBody UserDTO userDTO,@RequestParam long id){
+        try{
+            UserRTO user = userService.getUser(id);
+            HashSet<String> checkRto = validation.checkRtoUser(user);
+            if(checkRto.isEmpty()){
+                userService.updateUser(userDTO, id);
+                LOGGER.info("Changes were made");
+                return ResponseEntity.ok().body("Success");
+            }else{
+                LOGGER.error("User not found");
+                return ResponseEntity.badRequest().body("The user to edit was not found");
+            }
+        }catch (Exception ex){
+            LOGGER.error(ex.getMessage());
+            return ResponseEntity.internalServerError().body("Cannot change the user");
+        }
+    }
 }

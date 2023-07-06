@@ -3,7 +3,7 @@ package API.Foodlivery.app.controllers;
 import API.Foodlivery.app.entities.dto.ReviewDTO;
 import API.Foodlivery.app.entities.rto.ReviewRTO;
 import API.Foodlivery.app.service.ReviewService;
-import API.Foodlivery.app.tools.CheckEmptyField;
+import API.Foodlivery.app.tools.Validation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +18,14 @@ public class ReviewController {
 
     @Autowired
     ReviewService reviewService;
-
     @Autowired
-    CheckEmptyField checkEmptyField;
-
+    Validation validation;
     Logger LOGGER = LoggerFactory.getLogger(ReviewController.class);
 
     @PostMapping("/insert-new-review")
     public ResponseEntity createNewReview(@RequestBody ReviewDTO reviewDTO){
         LOGGER.info("Checking empty fields...");
-        HashSet<String> errors = checkEmptyField.checkRegisterReview(reviewDTO);
+        HashSet<String> errors = validation.checkRegisterReview(reviewDTO);
         if (!errors.isEmpty()) return ResponseEntity.badRequest().body(errors);
         LOGGER.info("Check complete");
 
@@ -40,4 +38,6 @@ public class ReviewController {
             return ResponseEntity.internalServerError().body(ex);
         }
     }
+
+
 }

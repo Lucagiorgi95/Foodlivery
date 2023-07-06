@@ -4,10 +4,9 @@ import API.Foodlivery.app.entities.Drink;
 import API.Foodlivery.app.entities.Restaurant;
 import API.Foodlivery.app.entities.dto.DrinkRequestDTO;
 import API.Foodlivery.app.entities.dto.DrinksDTO;
-import API.Foodlivery.app.entities.dto.FoodDTO;
-import API.Foodlivery.app.entities.dto.FoodRequestDTO;
 import API.Foodlivery.app.repositories.DrinkRepository;
 import API.Foodlivery.app.repositories.RestaurantRepository;
+import API.Foodlivery.app.tools.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,8 @@ public class DrinkService {
     DrinkRepository drinkRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
+    Converters converters;
 
     public void saveDrinks(DrinkRequestDTO dto){
         Restaurant restaurant = restaurantRepository.getById(dto.getRestaurantID());
@@ -35,6 +36,11 @@ public class DrinkService {
         drinkRepository.saveAll(drinks);
         restaurant.addDrinks(drinks);
         restaurantRepository.save(restaurant);
+    }
+
+    public List<DrinksDTO> findAllDrinkForRestaurant(long idRestaurnat) {
+        List<Drink> drinks = drinkRepository.findAllByRestaurantId(idRestaurnat);
+        return converters.listDrinksFromEntityToDto(drinks);
     }
 }
 

@@ -1,13 +1,14 @@
 package API.Foodlivery.app.tools;
 
 import API.Foodlivery.app.entities.dto.*;
+import API.Foodlivery.app.entities.rto.UserRTO;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
 @Service
-public class CheckEmptyField {
+public class Validation {
 
     public HashSet<String> checkRegisterUser(UserDTO dto){
         HashSet<String> errors = new HashSet<>();
@@ -53,6 +54,21 @@ public class CheckEmptyField {
         return errors;
     }
 
+    //Check Response
+    public HashSet<String> checkRtoFood(FoodDTO rto){
+        HashSet<String> emptyField = new HashSet<>();
+        if(rto.getName() == null && rto.getPrize() == 0 && rto.getDescription() == null) emptyField.add("Error");
+        return emptyField;
+    }
+    public HashSet<String> checkRtoUser(UserRTO rto) {
+        HashSet<String> emptyField = new HashSet<>();
+        if(rto.getName() == null && rto.getSurname() == null && rto.getEmail() == null &&
+                rto.getAddress() == null && rto.getDateOfBirth() == null && rto.getTelephoneNumber() == null) {
+            emptyField.add("Error");
+        }
+        return emptyField;
+    }
+
     /**
      * Metodo per la validazione dell'email al momento della registrazione
      * Le seguenti restrizioni sono imposte nella parte locale dell'indirizzo e-mail utilizzando questa regex:
@@ -78,4 +94,5 @@ public class CheckEmptyField {
                 .matcher(emailAddress)
                 .matches();
     }
+
 }

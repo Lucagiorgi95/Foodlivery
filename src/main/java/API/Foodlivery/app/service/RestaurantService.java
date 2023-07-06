@@ -1,6 +1,8 @@
 package API.Foodlivery.app.service;
 
 import API.Foodlivery.app.entities.Address;
+import API.Foodlivery.app.entities.dto.DrinksDTO;
+import API.Foodlivery.app.entities.dto.FoodDTO;
 import API.Foodlivery.app.entities.rto.RestaurantRTO;
 import API.Foodlivery.app.repositories.AddressRepository;
 import API.Foodlivery.app.tools.Converters;
@@ -10,6 +12,7 @@ import API.Foodlivery.app.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +23,10 @@ public class RestaurantService {
     AddressRepository addressRepository;
     @Autowired
     AddressService addressService;
+    @Autowired
+    FoodService foodService;
+    @Autowired
+    DrinkService drinkService;
     @Autowired
     Converters converters;
 
@@ -38,5 +45,19 @@ public class RestaurantService {
         List<Restaurant> listForType = restaurantRepository.findAllByType(type);
         if(listForType.isEmpty()) throw new RuntimeException("No restaurants found for: " + type);
         return converters.listRestaurantRTO(listForType);
+    }
+
+    public RestaurantRTO findRestaurant(long idRestaurnat) {
+        Restaurant restaurant = restaurantRepository.getById(idRestaurnat);
+        return converters.restaurantFromEntityToRTO(restaurant);
+    }
+
+    public List<Object> createCatalogue(long idRestaurnat) {
+        List<Object> catalogue = new ArrayList<>();
+        List<FoodDTO> foodList = foodService.findAllFoodForRestaurant(idRestaurnat);
+        List<DrinksDTO> drinklist = drinkService.findAllDrinkForRestaurant(idRestaurnat);
+        catalogue.add(foodList);
+        catalogue.add(drinklist);
+        return catalogue;
     }
 }

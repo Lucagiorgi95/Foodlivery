@@ -1,14 +1,9 @@
 package API.Foodlivery.app.tools;
 
-import API.Foodlivery.app.entities.dto.AddressDTO;
+import API.Foodlivery.app.entities.*;
+import API.Foodlivery.app.entities.dto.*;
 import API.Foodlivery.app.entities.rto.RestaurantRTO;
 import API.Foodlivery.app.entities.rto.ReviewRTO;
-import API.Foodlivery.app.entities.Address;
-import API.Foodlivery.app.entities.Review;
-import API.Foodlivery.app.entities.dto.RestaurantDTO;
-import API.Foodlivery.app.entities.Restaurant;
-import API.Foodlivery.app.entities.User;
-import API.Foodlivery.app.entities.dto.UserDTO;
 import API.Foodlivery.app.entities.rto.UserRTO;
 import org.springframework.stereotype.Service;
 
@@ -97,4 +92,37 @@ public class Converters {
         return rto;
     }
 
+    //Converter Food
+    public FoodDTO foodFromEntityToDto(Food food){
+        FoodDTO dto = new FoodDTO();
+        dto.setName(food.getName());
+        dto.setPrize(food.getPrize());
+        dto.setDescription(food.getDescription());
+        return dto;
+    }
+
+    public List<FoodDTO> listFoodFromEntityToDto(List<Food> list){
+        List<FoodDTO> dtoList = new ArrayList<>();
+        for(Food x : list){
+            dtoList.add(foodFromEntityToDto(x));
+        }
+        return dtoList;
+    }
+
+    //Converter Drink
+    public List<DrinksDTO> listDrinksFromEntityToDto(List<Drink> drinks) {
+        List<DrinksDTO> dtoList = new ArrayList<>();
+        for(Drink x : drinks){
+            dtoList.add(DrinkFromEntityToDto(x));
+        }
+        return dtoList;
+    }
+
+    private DrinksDTO DrinkFromEntityToDto(Drink drink) {
+        DrinksDTO dto = new DrinksDTO();
+        dto.setName(drink.getName());
+        dto.setPrize(drink.getPrize());
+        dto.setDescription(drink.getDescription());
+        return dto;
+    }
 }

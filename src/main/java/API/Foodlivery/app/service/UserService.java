@@ -39,14 +39,19 @@ public class UserService {
         else return null;
     }
 
-    public boolean deleteUser(long id){
-        User user = userRepository.getById(id);
-        if (user != null) {
-            userRepository.deleteById(id);
-            return true;
-        }else{
-            return false;
-        }
+    public void deleteUser(long id){
+        userRepository.deleteById(id);
     }
 
+    public void updateUser(UserDTO userDTO, long id) {
+        User user = userRepository.getById(id);
+        long idAddress = user.getAddress().getId();
+        if(userDTO.getSurname() != null) user.setSurname(userDTO.getSurname());
+        if(userDTO.getEmail() != null) user.setEmail(userDTO.getEmail());
+        if(userDTO.getDateOfBirth() != null) user.setDateOfBirth(userDTO.getDateOfBirth());
+        if(userDTO.getTelephoneNumber() != null) user.setTelephoneNumber(userDTO.getTelephoneNumber());
+        if(userDTO.getPassword() != null) user.setPassword(userDTO.getPassword());
+        if(userDTO.getAddress() != null) user.setAddress(addressService.updateAddress(userDTO.getAddress(), idAddress));
+        userRepository.save(user);
+    }
 }

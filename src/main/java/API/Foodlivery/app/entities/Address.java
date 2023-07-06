@@ -16,7 +16,7 @@ public class Address {
     private Long id;
     private String streetName;
     private int streetNumber;
-    private int postcode;
+    private String postcode;
     private String city;
     private String state;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "address")
