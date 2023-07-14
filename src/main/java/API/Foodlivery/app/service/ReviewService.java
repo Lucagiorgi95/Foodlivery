@@ -63,4 +63,28 @@ public class ReviewService {
         restaurant.setStarReview(averageStar);
         restaurantRepository.save(restaurant);
     }
+
+    public ReviewRTO findReview(long id) {
+        Review review = reviewRepository.getById(id);
+        if(review != null) return converters.reviewFromEntityYoDto(review);
+        else return null;
+    }
+
+    public List<ReviewRTO> findAllReviewOfRestaurant(long restaurantId) {
+        List<Review> listRto = reviewRepository.findAllByRestaurantId(restaurantId);
+        if (!listRto.isEmpty()){
+            return converters.reviewsListFromEntityToDto(listRto);
+        } else {
+            return null;
+        }
+    }
+
+    public List<ReviewRTO> findAllReviewOfUser(long userId) {
+        List<Review> listRto = reviewRepository.findAllByUserId(userId);
+        if (!listRto.isEmpty()){
+            return converters.reviewsListFromEntityToDto(listRto);
+        } else {
+            return null;
+        }
+    }
 }

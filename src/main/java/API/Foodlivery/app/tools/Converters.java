@@ -92,6 +92,15 @@ public class Converters {
         return rto;
     }
 
+    public List<ReviewRTO> reviewsListFromEntityToDto(List<Review> reviewList){
+        List<ReviewRTO> rtoList = new ArrayList<>();
+        for(Review x : reviewList){
+            ReviewRTO reviewRTO = reviewFromEntityYoDto(x);
+            rtoList.add(reviewRTO);
+        }
+        return rtoList;
+    }
+
     //Converter Food
     public FoodDTO foodFromEntityToDto(Food food){
         FoodDTO dto = new FoodDTO();

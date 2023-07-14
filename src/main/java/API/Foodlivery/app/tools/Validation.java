@@ -1,6 +1,7 @@
 package API.Foodlivery.app.tools;
 
 import API.Foodlivery.app.entities.dto.*;
+import API.Foodlivery.app.entities.rto.ReviewRTO;
 import API.Foodlivery.app.entities.rto.UserRTO;
 import org.springframework.stereotype.Service;
 
@@ -54,21 +55,6 @@ public class Validation {
         return errors;
     }
 
-    //Check Response
-    public HashSet<String> checkRtoFood(FoodDTO rto){
-        HashSet<String> emptyField = new HashSet<>();
-        if(rto.getName() == null && rto.getPrize() == 0 && rto.getDescription() == null) emptyField.add("Error");
-        return emptyField;
-    }
-    public HashSet<String> checkRtoUser(UserRTO rto) {
-        HashSet<String> emptyField = new HashSet<>();
-        if(rto.getName() == null && rto.getSurname() == null && rto.getEmail() == null &&
-                rto.getAddress() == null && rto.getDateOfBirth() == null && rto.getTelephoneNumber() == null) {
-            emptyField.add("Error");
-        }
-        return emptyField;
-    }
-
     /**
      * Metodo per la validazione dell'email al momento della registrazione
      * Le seguenti restrizioni sono imposte nella parte locale dell'indirizzo e-mail utilizzando questa regex:
@@ -94,5 +80,30 @@ public class Validation {
                 .matcher(emailAddress)
                 .matches();
     }
+
+    //Check Response
+    public HashSet<String> checkRtoFood(FoodDTO rto){
+        HashSet<String> emptyField = new HashSet<>();
+        if(rto.getName() == null && rto.getPrize() == 0 && rto.getDescription() == null) emptyField.add("Error");
+        return emptyField;
+    }
+    public HashSet<String> checkRtoUser(UserRTO rto) {
+        HashSet<String> emptyField = new HashSet<>();
+        if(rto.getName() == null && rto.getSurname() == null && rto.getEmail() == null &&
+                rto.getAddress() == null && rto.getDateOfBirth() == null && rto.getTelephoneNumber() == null) {
+            emptyField.add("Error");
+        }
+        return emptyField;
+    }
+
+
+    public HashSet<String> checkRtoReview(ReviewRTO rto) {
+        HashSet<String> emptyField = new HashSet<>();
+        if(rto.getDescription() == null && rto.getStar() == 0){
+            emptyField.add("Error");
+        }
+        return emptyField;
+    }
+
 
 }
